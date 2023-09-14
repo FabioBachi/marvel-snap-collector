@@ -7,23 +7,12 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Handjet:wght@400;500;600;700&display=block"
-          rel="stylesheet"
-        />
-
         <title>Marvel Snap Collector</title>
         <meta name="description" content="Marvel Snap Collector" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="bg-carbon-100 font-handjet text-carbon-400 min-h-screen text-lg text-lg tracking-wider">
+      <div className="bg-carbon-100 font-work-sans text-carbon-400 min-h-screen text-sm">
         <Component {...pageProps} />
       </div>
     </>

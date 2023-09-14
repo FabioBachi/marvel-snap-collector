@@ -1,6 +1,5 @@
 import Image from "next/image";
-import { FiLock } from "react-icons/fi";
-import { Button } from "~/components/ui/button";
+import { LoginForm } from "~/pages/login/components/form";
 
 export default function Login() {
   return (
@@ -11,16 +10,12 @@ export default function Login() {
           alt="Marvel Snap - Collector"
           className="object-contain"
           fill
+          priority
         />
       </header>
+
       <div className="flex w-full grow items-stretch px-4">
-        <div className="bg-carbon-200 flex w-full flex-col justify-center gap-4 rounded-t-xl p-4 text-center">
-          <p>Please log in before continuing:</p>
-          <Button variant="default">
-            <FiLock className="mr-2" />
-            Login
-          </Button>
-        </div>
+        <LoginForm />
       </div>
     </main>
   );

@@ -22,6 +22,7 @@ export default {
       current: "currentColor",
       emerald: colors.emerald,
       gray: colors.gray,
+      red: colors.red,
       transparent: "transparent",
       white: colors.white,
       carbon: {
@@ -29,6 +30,8 @@ export default {
         200: "#2C2C2C",
         300: "#525252",
         400: "#838383",
+        500: "#9F9F9F",
+        600: "#B7B7B7",
       },
       purple: {
         50: "#EEE8FE",
@@ -45,7 +48,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        handjet: ["Handjet", "Times New Roman", "sans-serif"],
+        "work-sans": ["Work Sans", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
