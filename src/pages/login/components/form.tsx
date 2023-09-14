@@ -8,9 +8,7 @@ import { Form } from "~/components/ui/form";
 import { toast } from "~/components/ui/use-toast";
 
 const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+  email: z.string(),
 });
 
 export const LoginForm = () => {
@@ -40,8 +38,9 @@ export const LoginForm = () => {
         <FormInput
           control={form.control}
           defaultValue=""
-          name="username"
+          name="email"
           placeholder="Your email"
+          type="email"
         />
 
         <Button type="submit" variant="default">

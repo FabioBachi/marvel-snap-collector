@@ -13,6 +13,7 @@ type Props = {
   description?: string;
   label?: string;
   placeholder?: string;
+  type?: React.HTMLInputTypeAttribute;
 };
 
 export const FormInput = <
@@ -22,6 +23,7 @@ export const FormInput = <
   description,
   label,
   placeholder,
+  type,
   ...props
 }: Props & Omit<ControllerProps<TFieldValues, TName>, "render">) => {
   return (
@@ -32,7 +34,7 @@ export const FormInput = <
           {label && <FormLabel>{label}</FormLabel>}
 
           <FormControl>
-            <Input placeholder={placeholder} {...field} />
+            <Input placeholder={placeholder} type={type} {...field} />
           </FormControl>
 
           {description && <FormDescription>{description}</FormDescription>}
