@@ -1,10 +1,23 @@
-import { type AppType } from "next/dist/shared/lib/utils";
+import { NextPage } from "next";
+import { AppProps } from "next/app";
 import Head from "next/head";
+import { ReactElement, ReactNode } from "react";
 import { Toaster } from "~/components/ui/toaster";
 import "~/styles/globals.css";
 
-const MyApp: AppType = ({ Component, pageProps }) => {
-  return (
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page);
+
+  return getLayout(
     <>
       <Head>
         <title>Marvel Snap Collector</title>
@@ -12,12 +25,10 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="bg-carbon-100 font-work-sans text-carbon-400 min-h-screen text-sm">
-        <Component {...pageProps} />
-      </div>
+      <Component {...pageProps} />
 
       <Toaster />
-    </>
+    </>,
   );
 };
 
