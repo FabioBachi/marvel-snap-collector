@@ -17,6 +17,15 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
+  images: {
+    remotePatterns: [
+      {
+        hostname: "marvelsnapzone.com",
+        protocol: "https",
+      },
+    ],
+  },
 };
 
 export default config;
