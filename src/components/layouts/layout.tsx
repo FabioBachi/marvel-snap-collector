@@ -3,6 +3,7 @@ import {
   Props as HeaderProps,
   LayoutHeader,
 } from "~/components/layouts/header";
+import { Navigation } from "~/components/layouts/nav";
 
 type Props = {
   header?: HeaderProps;
@@ -16,9 +17,7 @@ export const Layout = ({ children, header }: PropsWithChildren<Props>) => {
         <main>{children}</main>
       </div>
 
-      <nav className="fixed bottom-0 left-0 flex h-[4.75rem] w-full items-center justify-between bg-carbon-200/80 backdrop-blur">
-        navigation
-      </nav>
+      <Navigation />
     </div>
   );
 };
