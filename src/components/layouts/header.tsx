@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ReactNode } from "react";
 
 export type Props = {
@@ -7,24 +6,10 @@ export type Props = {
 };
 
 export const LayoutHeader = ({ icon, title }: Props) => {
-  return (
+  return title ? (
     <header className="flex items-center justify-center gap-2 py-3 text-2xl font-medium text-white">
-      {title ? (
-        <>
-          {icon || null}
-          {title}
-        </>
-      ) : (
-        <div className="relative h-12 w-full">
-          <Image
-            src="/logo.png"
-            alt="Marvel Snap - Collector"
-            className="object-contain"
-            fill
-            priority
-          />
-        </div>
-      )}
+      {icon || null}
+      {title}
     </header>
-  );
+  ) : null;
 };
