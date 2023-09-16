@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cards {
+  id       Int        @id @default(autoincrement())
+  name     String     @db.VarChar(255)
+  cost     Int        @db.SmallInt
+  power    Int        @db.SmallInt
+  ability  String?
+  flavor   String?
+  art      String     @db.VarChar(255)
+  slug     String     @db.VarChar(255)
+
+  userCards UsersCards[]
+  variants Variants[]
+
+  @@unique([name])
+}
+
+model Variants {
+  id       Int    @id @default(autoincrement())
+  art      String @db.VarChar(255)
+  sketcher String @db.VarChar(255)
+  colorist String @db.VarChar(255)
+  cardId   Int
+
+  card    Cards  @relation(fields: [cardId], references: [id])
+}
+
+model Users {
+  id        Int        @id @default(autoincrement())
+
+  userCards UsersCards[]
+}
+
+
+model UsersCards {
+  cardId       Int
+  userId       Int
+
+  card         Cards  @relation(fields: [cardId], references: [id])
+  user         Users  @relation(fields: [userId], references: [id])
+
+  @@id([cardId, userId])
+
+}
