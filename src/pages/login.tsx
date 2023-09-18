@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ReactElement } from "react";
+import { LoginForm } from "~/components/form";
 import { AuthLayout } from "~/components/layouts/authLayout";
-import { LoginForm } from "~/pages/login/components/form";
 
 export default function Login() {
   return (
