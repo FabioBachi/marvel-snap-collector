@@ -10,6 +10,7 @@ import {
 import { Input } from "~/components/ui/input";
 
 type Props = {
+  className?: string;
   description?: string;
   label?: string;
   placeholder?: string;
@@ -20,6 +21,7 @@ export const FormInput = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
+  className,
   description,
   label,
   placeholder,
@@ -34,7 +36,12 @@ export const FormInput = <
           {label && <FormLabel>{label}</FormLabel>}
 
           <FormControl>
-            <Input placeholder={placeholder} type={type} {...field} />
+            <Input
+              className={className}
+              placeholder={placeholder}
+              type={type}
+              {...field}
+            />
           </FormControl>
 
           {description && <FormDescription>{description}</FormDescription>}
