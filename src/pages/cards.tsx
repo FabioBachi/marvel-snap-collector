@@ -1,10 +1,12 @@
 import { Cards } from "@prisma/client";
 import type { GetServerSideProps } from "next";
+import { getServerSession } from "next-auth";
 import { ReactElement, useCallback, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Card } from "~/components/cards/card";
 import { Layout } from "~/components/layouts/layout";
 import { NextPageWithLayout } from "~/pages/_app";
+import { authOptions } from "~/pages/api/auth/[...nextauth]";
 import { getCards, perPage } from "~/pages/api/cards";
 
 type Props = {
@@ -48,6 +50,14 @@ Cards.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = (async (context) => {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (!session?.user) {
+    return {
+      redirect: { destination: "/", permanent: false },
+    };
+  }
+
   const page = context.query.page ? parseInt(context.query.page as string) : 1;
 
   return { props: { cards: await getCards(page), page } };

@@ -1,9 +1,10 @@
 import clsx from "clsx";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { PropsWithChildren } from "react";
-import { FiGrid, FiHeart, FiSearch } from "react-icons/fi";
+import { MouseEventHandler, PropsWithChildren } from "react";
+import { FiGrid, FiHeart, FiLogOut, FiSearch } from "react-icons/fi";
 import { PiCards } from "react-icons/pi";
 import { SearchInput } from "~/components/searchInput";
 
@@ -23,6 +24,7 @@ export const Navigation = () => {
             />
           </Link>
         </div>
+
         <NavButton className="hidden md:flex" route="/cards">
           <PiCards className="flex-shrink-0" />
           <span className="hidden text-sm md:block">Cards</span>
@@ -41,6 +43,13 @@ export const Navigation = () => {
         </NavButton>
 
         <SearchInput />
+
+        <NavButton
+          className="hidden md:flex"
+          onClick={() => signOut({ callbackUrl: "/" })}
+        >
+          <FiLogOut className="flex-shrink-0" />
+        </NavButton>
       </div>
     </nav>
   );
@@ -48,12 +57,14 @@ export const Navigation = () => {
 
 type NavButtonProps = {
   className?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
   route?: string;
 };
 
 const NavButton = ({
   children,
   className,
+  onClick,
   route,
 }: PropsWithChildren<NavButtonProps>) => {
   const { pathname } = useRouter();
@@ -66,7 +77,8 @@ const NavButton = ({
         active && "bg-purple-500",
         className,
       )}
-      href={route ?? ""}
+      onClick={onClick}
+      href={route ?? {}}
     >
       {children}
     </Link>
