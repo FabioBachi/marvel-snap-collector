@@ -16,7 +16,7 @@ export default function Document() {
         />
       </Head>
 
-      <body className="bg-carbon-100 font-work-sans text-carbon-400 min-h-screen text-sm">
+      <body className="min-h-screen bg-carbon-100 font-work-sans text-sm text-carbon-400">
         <Main />
         <NextScript />
       </body>

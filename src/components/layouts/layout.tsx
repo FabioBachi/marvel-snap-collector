@@ -12,7 +12,10 @@ type Props = {
 export const Layout = ({ children, header }: PropsWithChildren<Props>) => {
   return (
     <div className="relative h-screen overflow-hidden">
-      <div className="relative z-0 h-full overflow-y-auto overflow-x-hidden pb-[5rem]">
+      <div
+        className="relative z-0 h-full overflow-y-auto overflow-x-hidden pb-[5rem]"
+        id="content"
+      >
         <LayoutHeader title={header?.title} icon={header?.icon} />
         <main>{children}</main>
       </div>
