@@ -1,8 +1,9 @@
 import { Cards } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth";
 import { prisma } from "~/lib/db";
 import { authOptions } from "~/pages/api/auth/[...nextauth]";
+import { perPage } from "~/pages/api/cards";
 
 type ResponseData = Cards[] | { message: string };
 
@@ -17,7 +18,7 @@ export default async function handler(
   res: NextApiResponse<ResponseData>,
 ) {
   const session = await getServerSession(req, res, authOptions);
-  if (!session) {
+  if (!session?.user?.id) {
     res.status(401).json({ message: "Unauthorized" });
     return;
   }
@@ -25,20 +26,27 @@ export default async function handler(
   if (req.method === "GET") {
     const page = Number(req.query.page) || 1;
 
-    return res.status(200).json(await getCards(page));
+    console.log(";;;;;;;;;;;;;", session.user.id);
+    return res
+      .status(200)
+      .json(await getCollectionCards(session.user.id, page));
   }
 
   res.status(200);
 }
 
-export const perPage = 50;
-
-export const getCards = async (page: number) => {
-  return await prisma.cards.findMany({
-    skip: (page - 1) * perPage,
-    take: perPage,
-    orderBy: {
-      name: "asc",
-    },
-  });
+export const getCollectionCards = async (
+  userId: string,
+  page: number,
+): Promise<Cards[]> => {
+  return await prisma.usersCards
+    .findMany({
+      select: {
+        card: true,
+      },
+      skip: (page - 1) * perPage,
+      take: perPage,
+      where: { userId },
+    })
+    .then((data) => data.map((d) => d.card));
 };

@@ -3,7 +3,7 @@ import { createId } from "@paralleldrive/cuid2";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
-import { prisma } from "~/db";
+import { prisma } from "~/lib/db";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -45,6 +45,27 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GITHUB_SECRET || "",
     }),
   ],
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      if (user?.id) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    session: ({ session, token }) => {
+      return {
+        expires: session.expires,
+        user: token
+          ? {
+              id: token.id,
+              name: token.name,
+              email: token.email,
+              image: token.picture,
+            }
+          : undefined,
+      };
+    },
+  },
 };
 
 export default NextAuth(authOptions);
