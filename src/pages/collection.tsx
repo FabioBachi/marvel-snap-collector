@@ -1,4 +1,3 @@
-import { Cards } from "@prisma/client";
 import type { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { ReactElement, useCallback, useState } from "react";
@@ -7,11 +6,10 @@ import { Card } from "~/components/cards/card";
 import { Layout } from "~/components/layouts/layout";
 import { NextPageWithLayout } from "~/pages/_app";
 import { authOptions } from "~/pages/api/auth/[...nextauth]";
-import { perPage } from "~/pages/api/cards";
-import { getCollectionCards } from "~/pages/api/collection";
+import { CardData, getCards, perPage } from "~/pages/api/cards";
 
 type Props = {
-  cards: Cards[];
+  cards: CardData[];
   page: number;
 };
 
@@ -20,13 +18,17 @@ const Collection: NextPageWithLayout<Props> = (props: Props) => {
   const [page, setPage] = useState(props.page);
   const [hasMore, setHasMore] = useState(true);
 
+  console.log(cards);
+
   const loadMore = useCallback(() => {
     setPage(page + 1);
-    return fetch(`/api/cards?page=${page + 1}`).then(async (res) => {
-      const response = await res.json();
-      setHasMore(response.length === perPage);
-      setCards((cards) => [...cards, ...response]);
-    });
+    return fetch(`/api/cards?page=${page + 1}&requiresCollection=1`).then(
+      async (res) => {
+        const response = await res.json();
+        setHasMore(response.length === perPage);
+        setCards((cards) => [...cards, ...response]);
+      },
+    );
   }, [page]);
 
   return (
@@ -62,7 +64,7 @@ export const getServerSideProps = (async (context) => {
   const page = context.query.page ? parseInt(context.query.page as string) : 1;
 
   return {
-    props: { cards: await getCollectionCards(session.user.id, page), page },
+    props: { cards: await getCards(page, session.user.id, true), page },
   };
 }) satisfies GetServerSideProps<Props>;
 

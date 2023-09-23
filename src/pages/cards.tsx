@@ -1,4 +1,3 @@
-import { Cards } from "@prisma/client";
 import type { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { ReactElement, useCallback, useState } from "react";
@@ -7,10 +6,10 @@ import { Card } from "~/components/cards/card";
 import { Layout } from "~/components/layouts/layout";
 import { NextPageWithLayout } from "~/pages/_app";
 import { authOptions } from "~/pages/api/auth/[...nextauth]";
-import { getCards, perPage } from "~/pages/api/cards";
+import { CardData, getCards, perPage } from "~/pages/api/cards";
 
 type Props = {
-  cards: Cards[];
+  cards: CardData[];
   page: number;
 };
 
@@ -52,7 +51,7 @@ Cards.getLayout = function getLayout(page: ReactElement) {
 export const getServerSideProps = (async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
 
-  if (!session?.user) {
+  if (!session?.user?.id) {
     return {
       redirect: { destination: "/", permanent: false },
     };
@@ -60,7 +59,9 @@ export const getServerSideProps = (async (context) => {
 
   const page = context.query.page ? parseInt(context.query.page as string) : 1;
 
-  return { props: { cards: await getCards(page), page } };
+  return {
+    props: { cards: await getCards(page, session.user.id, false), page },
+  };
 }) satisfies GetServerSideProps<Props>;
 
 export default Cards;
