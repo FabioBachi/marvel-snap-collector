@@ -3,7 +3,7 @@
 import { trpc } from "~/utils/trpc"
 
 const Home = () => {
-  let { data: users, isLoading, isFetching } = trpc.getUsers.useQuery("test")
+  let { data: users, isLoading, isFetching } = trpc.getCards.useQuery({ page: 1 })
 
   if (isLoading || isFetching) {
     return <p>Loading...</p>

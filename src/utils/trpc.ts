@@ -1,14 +1,9 @@
 import { createTRPCReact } from "@trpc/react-query"
-import { AppRouter } from "~/server"
+import { AppRouter } from "~/server/trpc"
 
 export const trpc = createTRPCReact<AppRouter>()
 
 export const gettRPCBaseUrl = () => {
-  if (typeof window !== "undefined") {
-    // browser should use relative path
-    return ""
-  }
-
   if (process.env.VERCEL_URL) {
     // reference for vercel.com
     return `https://${process.env.VERCEL_URL}`
