@@ -1,5 +1,6 @@
 "use client"
 
+import Button from "@mui/material/Button"
 import { trpc } from "~/utils/trpc"
 
 const Home = () => {
@@ -9,7 +10,12 @@ const Home = () => {
     return <p>Loading...</p>
   }
 
-  return <>{JSON.stringify(users)}</>
+  return (
+    <>
+      <Button variant="contained">Hello world</Button>
+      {JSON.stringify(users)}
+    </>
+  )
 }
 
 export default Home

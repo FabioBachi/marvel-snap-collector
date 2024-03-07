@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import Head from "next/head"
-import { TrpcProvider } from "~/components/provider"
+import { Roboto } from "next/font/google"
+import { Layout } from "~/components/layout"
+import { TrpcProvider } from "~/components/trpcProvider"
 
-const inter = Inter({ subsets: ["latin"] })
+const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500", "700"] })
 
 export const metadata: Metadata = {
   title: "Marvel Snap Collector",
@@ -20,8 +20,10 @@ export default function RootLayout({
         <link rel="icon" href="/assets/images/favicon.jpg" type="image/png" />
       </head>
 
-      <body className={inter.className}>
-        <TrpcProvider>{children}</TrpcProvider>
+      <body className={roboto.className}>
+        <TrpcProvider>
+          <Layout>{children}</Layout>
+        </TrpcProvider>
       </body>
     </html>
   )
